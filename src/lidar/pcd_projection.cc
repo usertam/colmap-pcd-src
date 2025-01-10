@@ -247,6 +247,14 @@ void PcdProj::SearchSubMap(const LImage& img, ImageMapType& image_map){
 
     // Initialize the pyramid
     QuadPyramid quad_pyramid(t_wc,corner_1,corner_2,corner_3,corner_4);
+
+    // Debug output for QuadPyramid corners
+    std::cout << "QuadPyramid corners:" << std::endl;
+    std::cout << "Vertex: " << quad_pyramid.vertex.transpose() << std::endl;
+    std::cout << "Corner 1: " << quad_pyramid.corner_1.transpose() << std::endl;
+    std::cout << "Corner 2: " << quad_pyramid.corner_2.transpose() << std::endl;
+    std::cout << "Corner 3: " << quad_pyramid.corner_3.transpose() << std::endl;
+    std::cout << "Corner 4: " << quad_pyramid.corner_4.transpose() << std::endl;
   
     SearchImageMap(quad_pyramid,image_map);
 }
@@ -442,6 +450,15 @@ void PcdProj::SearchImageMap(QuadPyramid& quad, ImageMapType& image_map){
             }
         } 
     }
+
+    // Debug output for QuadPyramid planes
+    std::cout << "QuadPyramid planes:" << std::endl;
+    std::cout << "Plane 0: " << quad.plane_0.transpose() << std::endl;
+    std::cout << "Plane 1: " << quad.plane_1.transpose() << std::endl;
+    std::cout << "Plane 2: " << quad.plane_2.transpose() << std::endl;
+    std::cout << "Plane 3: " << quad.plane_3.transpose() << std::endl;
+    std::cout << "Plane 4: " << quad.plane_4.transpose() << std::endl;
+
     return ;
 }
 
