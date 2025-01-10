@@ -82,15 +82,27 @@ void PcdProj::SetNewImage(const Image& image,
             const Camera& camera, 
             std::vector<std::pair<Eigen::Vector2d, bool>,Eigen::aligned_allocator<std::pair<Eigen::Vector2d, bool>>>& pt_xys, 
             std::vector<Eigen::Vector3d,Eigen::aligned_allocator<Eigen::Vector3d>>& pt_xyzs){
+    // Log input parameters
+    std::cout << "SetNewImage called with image: " << image.Name() << ", camera: " << camera.ModelName() << std::endl;
+
     Eigen::Quaterniond q_cw(image.Qvec()[0],image.Qvec()[1],image.Qvec()[2],image.Qvec()[3]);
     Eigen::Matrix3d rot_cw = q_cw.toRotationMatrix();
     Eigen::Vector3d t_cw = image.Tvec();
     
+    // Log Quaterniond q_cw, Matrix3d rot_cw, and Vector3d t_cw
+    std::cout << "Quaterniond q_cw: " << q_cw << std::endl;
+    std::cout << "Matrix3d rot_cw: " << rot_cw << std::endl;
+    std::cout << "Vector3d t_cw: " << t_cw << std::endl;
+
     // Only for OpenCV camera model
     std::vector<double> params = camera.Params();
     double scale = options_.depth_image_scale;
     int img_h = static_cast<int>(camera.Height() * scale);
     int img_w = static_cast<int>(camera.Width() * scale);
+
+    // Log img_h and img_w
+    std::cout << "img_h: " << img_h << " = " << camera.Height() << " * " << scale << std::endl;
+    std::cout << "img_w: " << img_w << " = " << camera.Width() << " * " << scale << std::endl;
 
     std::set<Eigen::Matrix<int,2,1>,fea_compare> features;
     for (const auto& pt_xy : pt_xys){
@@ -109,6 +121,12 @@ void PcdProj::SetNewImage(const Image& image,
     img.cx = params[2] * scale;
     img.cy = params[3] * scale;
 
+    // Log img.fx, img.fy, img.cx, and img.cy
+    std::cout << "img.fx: " << img.fx << " = " << params[0] << " * " << scale << std::endl;
+    std::cout << "img.fy: " << img.fy << " = " << params[1] << " * " << scale << std::endl;
+    std::cout << "img.cx: " << img.cx << " = " << params[2] << " * " << scale << std::endl;
+    std::cout << "img.cy: " << img.cy << " = " << params[3] << " * " << scale << std::endl;
+
     ImageMapType img_nodes;
 
     SearchSubMap(img, img_nodes);
@@ -121,11 +139,17 @@ void PcdProj::SetNewImage(const Image& image,
     double cx = params[2];
     double cy = params[3];
 
+    std::cout << "fx: " << fx << std::endl;
+    std::cout << "fy: " << fy << std::endl;
+    std::cout << "cx: " << cx << std::endl;
+    std::cout << "cy: " << cy << std::endl;
+
     for (auto& pt_xy : pt_xys){
 
         Eigen::Matrix<int,2,1> uv = (pt_xy.first * scale).cast<int>();
         if (uv(0)<0 || uv(0)>=img_w || uv(1)<0 || uv(1)>=img_h ){
             pt_xy.second = false;
+            std::cout << "pt_xy.second set to false for uv: " << uv << std::endl;
             Eigen::Vector3d pt_xyz = Eigen::Vector3d::Zero();
             pt_xyzs.push_back(pt_xyz);
             continue;
@@ -140,6 +164,19 @@ void PcdProj::SetNewImage(const Image& image,
             // z * (v - cy)/fy = y
             // ax + by + cz + d = 0
             // (a * (u - cx)/fx + b * (v - cy)/fy + c ) * z + d = 0
+
+            std::cout << "x: " << iter->second.first.x << std::endl;
+            std::cout << "y: " << iter->second.first.y << std::endl;
+            std::cout << "z: " << iter->second.first.z << std::endl;
+            std::cout << "a / normal_x: " << iter->second.first.normal_x << std::endl;
+            std::cout << "b / normal_y: " << iter->second.first.normal_y << std::endl;
+            std::cout << "c / normal_z: " << iter->second.first.normal_z << std::endl;
+            std::cout << "u: " << pt_xy.first(0) << std::endl;
+            std::cout << "v: " << pt_xy.first(1) << std::endl;
+            std::cout << "z': " << - d / (a * (u - cx)/fx + b * (v - cy)/fy + c ) << std::endl;
+            std::cout << "x': " << z * (u - cx)/fx << std::endl;
+            std::cout << "y': " << z * (v - cy)/fy << std::endl;
+
             double a = static_cast<double>(iter->second.first.normal_x);
             double b = static_cast<double>(iter->second.first.normal_y);
             double c = static_cast<double>(iter->second.first.normal_z);
@@ -156,6 +193,7 @@ void PcdProj::SetNewImage(const Image& image,
             pt_xyzs.push_back(pt_xyz);
         } else {
             pt_xy.second = false;
+            std::cout << "pt_xy.second set to false for uv: " << uv << std::endl;
             Eigen::Vector3d pt_xyz = Eigen::Vector3d::Zero();
             pt_xyzs.push_back(pt_xyz);
         }
