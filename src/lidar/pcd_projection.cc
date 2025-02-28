@@ -333,6 +333,21 @@ void PcdProj::ImageMapProj(LImage& img, ImageMapType& image_map, const Camera& c
             }
         }
     }
+
+    // Dump the output LImage& img in a human-readable image format
+    cv::Mat output_image(img.img_height, img.img_width, CV_8UC3, cv::Scalar(255, 255, 255));
+    for (const auto& feature_point : img.feature_points) {
+        int u = feature_point(0);
+        int v = feature_point(1);
+        auto iter = img.feature_pts_map.find(feature_point);
+        if (iter != img.feature_pts_map.end()) {
+            float dist = iter->second.second;
+            cv::circle(output_image, cv::Point(u, v), 2, cv::Scalar(0, 0, 255), -1);
+            cv::putText(output_image, std::to_string(dist), cv::Point(u, v), cv::FONT_HERSHEY_SIMPLEX, 0.3, cv::Scalar(0, 0, 0), 1);
+        }
+    }
+    std::string output_image_path = options_.depth_image_folder + "/" + img.img_name + "_output.png";
+    cv::imwrite(output_image_path, output_image);
 }
 
 void PcdProj::SaveDepthImage(const LImage& img){
