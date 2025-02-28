@@ -51,7 +51,7 @@ class ThreadControlWidget : public QWidget {
                      const std::function<void()>& func);
 
  private:
-  QProgressDialog* progress_bar_;
+  QProgressDialog* progress_bar_;// 进度对话框
   QAction* destructor_;
   std::unique_ptr<Thread> thread_;
 };

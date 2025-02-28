@@ -80,14 +80,13 @@ class DatabaseCache {
   void AddCamera(class Camera camera);
   void AddImage(class Image image);
 
-  // Load cameras, images, features, and matches from database.
-  //
-  // @param database              Source database from which to load data.
-  // @param min_num_matches       Only load image pairs with a minimum number
-  //                              of matches.
-  // @param ignore_watermarks     Whether to ignore watermark image pairs.
-  // @param image_names           Whether to use only load the data for a subset
-  //                              of the images. All images are used if empty.
+  /** Load cameras, images, features, and matches from database.
+   * @param database              Source database from which to load data.
+   * @param min_num_matches       Only load image pairs with a minimum numberof matches.
+   * @param ignore_watermarks     Whether to ignore watermark image pairs.
+   * @param image_names           Whether to use only load the data for a subset
+   *                              of the images. All images are used if empty.
+  */
   void Load(const Database& database, const size_t min_num_matches,
             const bool ignore_watermarks,
             const std::unordered_set<std::string>& image_names);

@@ -38,7 +38,6 @@
 #include "types.h"
 
 namespace colmap {
-
 struct PlyPoint {
   float x = 0.0f;
   float y = 0.0f;

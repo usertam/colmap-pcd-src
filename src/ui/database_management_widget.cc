@@ -768,6 +768,11 @@ DatabaseManagementWidget::DatabaseManagementWidget(QWidget* parent,
   grid->setColumnStretch(1, 1);
 }
 
+const int DatabaseManagementWidget::NumImages() {
+  const int image_num = database_.NumImages();
+  return image_num;
+}
+
 void DatabaseManagementWidget::showEvent(QShowEvent*) {
   parent_->setDisabled(true);
 

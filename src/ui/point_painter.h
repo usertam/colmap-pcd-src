@@ -58,6 +58,7 @@ class PointPainter {
 
  private:
   QOpenGLShaderProgram shader_program_;
+
   QOpenGLVertexArrayObject vao_;
   QOpenGLBuffer vbo_;
 

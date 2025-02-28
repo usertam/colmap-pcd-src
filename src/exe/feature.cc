@@ -100,7 +100,7 @@ void UpdateImageReaderOptionsFromCameraMode(ImageReaderOptions& options,
       break;
   }
 }
-
+// feature extractor运行函数
 int RunFeatureExtractor(int argc, char** argv) {
   std::string image_list_path;
   int camera_mode = -1;
@@ -115,7 +115,6 @@ int RunFeatureExtractor(int argc, char** argv) {
                            "{'l1_root', 'l2'}");
   options.AddExtractionOptions();
   options.Parse(argc, argv);
-
   ImageReaderOptions reader_options = *options.image_reader;
   reader_options.database_path = *options.database_path;
   reader_options.image_path = *options.image_path;
@@ -162,7 +161,6 @@ int RunFeatureExtractor(int argc, char** argv) {
   if (options.sift_extraction->use_gpu && kUseOpenGL) {
     app.reset(new QApplication(argc, argv));
   }
-
   SiftFeatureExtractor feature_extractor(reader_options,
                                          *options.sift_extraction);
 

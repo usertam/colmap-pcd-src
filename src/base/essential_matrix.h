@@ -68,7 +68,7 @@ void DecomposeEssentialMatrix(const Eigen::Matrix3d& E, Eigen::Matrix3d* R1,
 //                     inlier mask must match the number of points N.
 // @param R            Most probable 3x3 rotation matrix.
 // @param t            Most probable 3x1 translation vector.
-// @param points3D     Triangulated 3D points infront of camera.
+// @param points3D     Triangulated 3D points infront of camera. 
 void PoseFromEssentialMatrix(const Eigen::Matrix3d& E,
                              const std::vector<Eigen::Vector2d>& points1,
                              const std::vector<Eigen::Vector2d>& points2,

@@ -104,9 +104,9 @@ struct SiftExtractionOptions {
     // This normalization is usually better than standard L2-normalization.
     // See "Three things everyone should know to improve object retrieval",
     // Relja Arandjelovic and Andrew Zisserman, CVPR 2012.
-    L1_ROOT,
+    L1_ROOT, //对descriptor逐元素做平方根
     // Each vector is L2-normalized.
-    L2,
+    L2, //L2归一化
   };
   Normalization normalization = Normalization::L1_ROOT;
 

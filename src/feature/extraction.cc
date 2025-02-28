@@ -86,7 +86,8 @@ SiftFeatureExtractor::SiftFeatureExtractor(
     const SiftExtractionOptions& sift_options)
     : reader_options_(reader_options),
       sift_options_(sift_options),
-      database_(reader_options_.database_path),
+      database_(reader_options_.database_path),//database_使用database_path的string显式初始化，打开reader_options_.database_path文件
+      //image_reader_初始化
       image_reader_(reader_options_, &database_) {
   CHECK(reader_options_.Check());
   CHECK(sift_options_.Check());
@@ -175,7 +176,7 @@ SiftFeatureExtractor::SiftFeatureExtractor(
 }
 
 void SiftFeatureExtractor::Run() {
-  PrintHeading1("Feature extraction");
+  PrintHeading1("Feature extraction");//打印标题
 
   for (auto& resizer : resizers_) {
     resizer->Start();

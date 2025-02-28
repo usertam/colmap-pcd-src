@@ -40,7 +40,7 @@
 #include "util/version.h"
 
 namespace {
-
+// This function is used to process the command line
 typedef std::function<int(int, char**)> command_func_t;
 
 int ShowHelp(
@@ -99,7 +99,7 @@ int main(int argc, char** argv) {
 #endif
 
   std::vector<std::pair<std::string, command_func_t>> commands;
-  commands.emplace_back("gui", &RunGraphicalUserInterface);
+  commands.emplace_back("gui", &RunGraphicalUserInterface);//
   commands.emplace_back("automatic_reconstructor", &RunAutomaticReconstructor);
   commands.emplace_back("bundle_adjuster", &RunBundleAdjuster);
   commands.emplace_back("color_extractor", &RunColorExtractor);
@@ -108,7 +108,7 @@ int main(int argc, char** argv) {
   commands.emplace_back("database_merger", &RunDatabaseMerger);
   commands.emplace_back("delaunay_mesher", &RunDelaunayMesher);
   commands.emplace_back("exhaustive_matcher", &RunExhaustiveMatcher);
-  commands.emplace_back("feature_extractor", &RunFeatureExtractor);
+  commands.emplace_back("feature_extractor", &RunFeatureExtractor);//第一步特征提取
   commands.emplace_back("feature_importer", &RunFeatureImporter);
   commands.emplace_back("hierarchical_mapper", &RunHierarchicalMapper);
   commands.emplace_back("image_deleter", &RunImageDeleter);
@@ -167,6 +167,7 @@ int main(int argc, char** argv) {
                 << std::endl;
       return EXIT_FAILURE;
     } else {
+
       int command_argc = argc - 1;
       char** command_argv = &argv[1];
       command_argv[0] = argv[0];

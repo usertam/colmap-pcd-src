@@ -155,6 +155,11 @@ class Database {
 
   TwoViewGeometry ReadTwoViewGeometry(const image_t image_id1,
                                       const image_t image_id2) const;
+  /**
+   * @brief 
+   * @param image_pair_ids 使用uint64_t代表的image_pair的id
+   * @param two_view_geometries 记载image_pairs的双视图几何的structs
+   */
   void ReadTwoViewGeometries(
       std::vector<image_pair_t>* image_pair_ids,
       std::vector<TwoViewGeometry>* two_view_geometries) const;

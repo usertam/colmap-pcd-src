@@ -51,7 +51,7 @@
                            #val1, #val2, #op)) {                           \
     return false;                                                          \
   }
-#define CHECK_OPTION_EQ(val1, val2) CHECK_OPTION_OP(_EQ, ==, val1, val2)
+#define CHECK_OPTION_EQ(val1, val2) CHECK_OPTION_OP(_EQ, ==, val1, val2)//宏函数
 #define CHECK_OPTION_NE(val1, val2) CHECK_OPTION_OP(_NE, !=, val1, val2)
 #define CHECK_OPTION_LE(val1, val2) CHECK_OPTION_OP(_LE, <=, val1, val2)
 #define CHECK_OPTION_LT(val1, val2) CHECK_OPTION_OP(_LT, <, val1, val2)
@@ -70,7 +70,7 @@ void InitializeGlog(char** argv);
 const char* __GetConstFileBaseName(const char* file);
 
 bool __CheckOptionImpl(const char* file, const int line, const bool result,
-                       const char* expr_str);
+                       const char* expr_str); 
 
 template <typename T1, typename T2>
 bool __CheckOptionOpImpl(const char* file, const int line, const bool result,

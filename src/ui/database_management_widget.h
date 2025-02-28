@@ -165,6 +165,7 @@ class ImageTab : public QWidget {
 class DatabaseManagementWidget : public QWidget {
  public:
   DatabaseManagementWidget(QWidget* parent, OptionManager* options);
+  const int NumImages();
 
  private:
   void showEvent(QShowEvent* event);
@@ -172,6 +173,7 @@ class DatabaseManagementWidget : public QWidget {
 
   void ClearMatches();
   void ClearTwoViewGeometries();
+
 
   QWidget* parent_;
 

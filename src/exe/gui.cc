@@ -35,7 +35,6 @@
 #include "util/option_manager.h"
 
 namespace colmap {
-
 int RunGraphicalUserInterface(int argc, char** argv) {
 #ifndef GUI_ENABLED
   std::cerr << "ERROR: Cannot start colmap GUI; colmap was built without GUI "
@@ -50,6 +49,7 @@ int RunGraphicalUserInterface(int argc, char** argv) {
   std::string import_path;
 
   if (argc > 1) {
+    //将import_path设置为必须要给入的default_option
     options.AddDefaultOption("import_path", &import_path);
     options.AddAllOptions();
     options.Parse(argc, argv);
@@ -66,6 +66,7 @@ int RunGraphicalUserInterface(int argc, char** argv) {
   main_window.show();
 
   if (!import_path.empty()) {
+    // 只是打开一个已有项目开始重建的话不执行这条语句
     main_window.ImportReconstruction(import_path);
   }
 

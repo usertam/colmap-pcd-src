@@ -75,6 +75,7 @@ void PointColormapPhotometric::Prepare(EIGEN_STL_UMAP(camera_t, Camera) &
 
 Eigen::Vector4f PointColormapPhotometric::ComputeColor(
     const point3D_t point3D_id, const Point3D& point3D) {
+
   return Eigen::Vector4f(point3D.Color(0) / 255.0f, point3D.Color(1) / 255.0f,
                          point3D.Color(2) / 255.0f, 1.0f);
 }
@@ -95,6 +96,7 @@ void PointColormapError::Prepare(EIGEN_STL_UMAP(camera_t, Camera) & cameras,
 
 Eigen::Vector4f PointColormapError::ComputeColor(const point3D_t point3D_id,
                                                  const Point3D& point3D) {
+
   const float gray = AdjustScale(static_cast<float>(point3D.Error()));
   return Eigen::Vector4f(JetColormap::Red(gray), JetColormap::Green(gray),
                          JetColormap::Blue(gray), 1.0f);
@@ -117,6 +119,7 @@ void PointColormapTrackLen::Prepare(EIGEN_STL_UMAP(camera_t, Camera) & cameras,
 
 Eigen::Vector4f PointColormapTrackLen::ComputeColor(const point3D_t point3D_id,
                                                     const Point3D& point3D) {
+
   const float gray = AdjustScale(point3D.Track().Length());
   return Eigen::Vector4f(JetColormap::Red(gray), JetColormap::Green(gray),
                          JetColormap::Blue(gray), 1.0f);

@@ -46,7 +46,7 @@ struct RenderOptions {
   int min_track_len = 3;
 
   // Maximum error for a point to be rendered.
-  double max_error = 2;
+  double max_error = 8;
 
   // The rate of registered images at which to refresh.
   int refresh_rate = 1;

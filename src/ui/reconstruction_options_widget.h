@@ -69,7 +69,10 @@ class MapperFilteringOptionsWidget : public OptionsWidget {
  public:
   MapperFilteringOptionsWidget(QWidget* parent, OptionManager* options);
 };
-
+class MapperLidarConstraintingOptionsWidget : public OptionsWidget {
+ public:
+  MapperLidarConstraintingOptionsWidget(QWidget* parent, OptionManager* options);
+};
 class ReconstructionOptionsWidget : public QWidget {
  public:
   ReconstructionOptionsWidget(QWidget* parent, OptionManager* options);

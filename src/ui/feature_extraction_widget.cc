@@ -190,9 +190,9 @@ QGroupBox* FeatureExtractionWidget::CreateCameraModelBox() {
 #undef CAMERA_MODEL_CASE
 
   camera_params_exif_rb_ = new QRadioButton(tr("Parameters from EXIF"), this);
-  camera_params_exif_rb_->setChecked(true);
 
   camera_params_custom_rb_ = new QRadioButton(tr("Custom parameters"), this);
+  camera_params_custom_rb_->setChecked(true);
 
   camera_params_info_ = new QLabel(tr(""), this);
   QPalette pal = QPalette(camera_params_info_->palette());
@@ -200,7 +200,7 @@ QGroupBox* FeatureExtractionWidget::CreateCameraModelBox() {
   camera_params_info_->setPalette(pal);
 
   camera_params_text_ = new QLineEdit(this);
-  camera_params_text_->setEnabled(false);
+  camera_params_text_->setEnabled(true);
 
   single_camera_cb_ = new QCheckBox("Shared for all images", this);
   single_camera_cb_->setChecked(false);

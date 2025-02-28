@@ -48,7 +48,7 @@ struct TwoViewGeometry {
   enum ConfigurationType {
     UNDEFINED = 0,
     // Degenerate configuration (e.g., no overlap or not enough inliers).
-    DEGENERATE = 1,
+    DEGENERATE = 1, 
     // Essential matrix.
     CALIBRATED = 2,
     // Fundamental matrix.
@@ -186,6 +186,8 @@ struct TwoViewGeometry {
   // @param points2         Feature points in second image.
   // @param matches         Feature matches between first and second image.
   // @param options         Two-view geometry estimation options.
+  // 函数内部计算两张图像之间匹配上的inliers的数目
+  // 计算位姿r, t, tri_angle
   bool EstimateRelativePose(const Camera& camera1,
                             const std::vector<Eigen::Vector2d>& points1,
                             const Camera& camera2,

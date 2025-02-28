@@ -548,7 +548,7 @@ void Database::ReadTwoViewGeometries(
     const image_pair_t pair_id = static_cast<image_pair_t>(
         sqlite3_column_int64(sql_stmt_read_two_view_geometries_, 0));
     image_pair_ids->push_back(pair_id);
-
+    
     TwoViewGeometry two_view_geometry;
 
     const FeatureMatchesBlob blob = ReadDynamicMatrixBlob<FeatureMatchesBlob>(

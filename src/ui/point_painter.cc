@@ -66,6 +66,7 @@ void PointPainter::Setup() {
 }
 
 void PointPainter::Upload(const std::vector<PointPainter::Data>& data) {
+  // size_t num_geoms_
   num_geoms_ = data.size();
   if (num_geoms_ == 0) {
     return;
@@ -75,6 +76,7 @@ void PointPainter::Upload(const std::vector<PointPainter::Data>& data) {
   vbo_.bind();
 
   // Upload data array to GPU
+  // buffer设置为DynamicDraw  buffer can be modified more times
   vbo_.setUsagePattern(QOpenGLBuffer::DynamicDraw);
   vbo_.allocate(data.data(),
                 static_cast<int>(data.size() * sizeof(PointPainter::Data)));

@@ -66,6 +66,7 @@ void DatabaseCache::Load(const Database& database, const size_t min_num_matches,
   timer.Start();
   std::cout << "Loading cameras..." << std::flush;
 
+  //导入相机模型
   {
     std::vector<class Camera> cameras = database.ReadAllCameras();
     cameras_.reserve(cameras.size());
@@ -103,7 +104,7 @@ void DatabaseCache::Load(const Database& database, const size_t min_num_matches,
   };
 
   //////////////////////////////////////////////////////////////////////////////
-  // Load images
+  // Load images 导入图像
   //////////////////////////////////////////////////////////////////////////////
 
   timer.Restart();
@@ -172,6 +173,7 @@ void DatabaseCache::Load(const Database& database, const size_t min_num_matches,
   std::cout << "Building correspondence graph..." << std::flush;
 
   for (const auto& image : images_) {
+    //填入image_id和图像中特征点的个数
     correspondence_graph_.AddImage(image.first, image.second.NumPoints2D());
   }
 
@@ -192,12 +194,15 @@ void DatabaseCache::Load(const Database& database, const size_t min_num_matches,
     }
   }
 
+  // Count the number of times each image is observed
   correspondence_graph_.Finalize();
 
   // Set number of observations and correspondences per image.
   for (auto& image : images_) {
+    
     image.second.SetNumObservations(
         correspondence_graph_.NumObservationsForImage(image.first));
+    // Get the number of correspondences per image.
     image.second.SetNumCorrespondences(
         correspondence_graph_.NumCorrespondencesForImage(image.first));
   }

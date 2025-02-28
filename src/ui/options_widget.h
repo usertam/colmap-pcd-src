@@ -52,11 +52,11 @@ class OptionsWidget : public QWidget {
                          const int min = 0,
                          const int max = static_cast<int>(1e7));
   QDoubleSpinBox* AddOptionDouble(double* option, const std::string& label_text,
-                                  const double min = 0, const double max = 1e7,
+                                  double min = -1e7, const double max = 1e7,
                                   const double step = 0.01,
                                   const int decimals = 2);
   QDoubleSpinBox* AddOptionDoubleLog(
-      double* option, const std::string& label_text, const double min = 0,
+      double* option, const std::string& label_text, const double min = -1e7,
       const double max = 1e7, const double step = 0.01, const int decimals = 2);
   QCheckBox* AddOptionBool(bool* option, const std::string& label_text);
   QLineEdit* AddOptionText(std::string* option, const std::string& label_text);

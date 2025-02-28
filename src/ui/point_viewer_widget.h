@@ -41,7 +41,6 @@
 namespace colmap {
 
 class ModelViewerWidget;
-
 class PointViewerWidget : public QWidget {
  public:
   PointViewerWidget(QWidget* parent, ModelViewerWidget* model_viewer_widget,

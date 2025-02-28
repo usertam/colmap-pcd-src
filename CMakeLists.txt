@@ -36,12 +36,13 @@ project(COLMAP LANGUAGES C CXX)
 set(COLMAP_VERSION "3.8")
 set(COLMAP_VERSION_NUMBER "3800")
 
+set(CMAKE_CUDA_ARCHITECTURES "all-major")
+
 ################################################################################
 # Include CMake dependencies
 ################################################################################
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-
 include(CheckCXXCompilerFlag)
 
 # Include helper macros and commands, and allow the included file to override
@@ -52,7 +53,6 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/CMakeHelper.cmake NO_POLICY_SCOPE)
 ################################################################################
 # Options
 ################################################################################
-
 option(SIMD_ENABLED "Whether to enable SIMD optimizations" ON)
 option(OPENMP_ENABLED "Whether to enable OpenMP parallelization" ON)
 option(IPO_ENABLED "Whether to enable interprocedural optimization" ON)
@@ -65,11 +65,11 @@ option(PROFILING_ENABLED "Whether to enable google-perftools linker flags" OFF)
 option(CCACHE_ENABLED "Whether to enable compiler caching, if available" ON)
 option(CGAL_ENABLED "Whether to enable the CGAL library" ON)
 option(BOOST_STATIC "Whether to enable static boost library linker flags" ON)
+option(TEST_LIDAR_ENABLED "Whether to enable test images real-time display" ON)
 
 if(TESTS_ENABLED)
     enable_testing()
 endif()
-
 if(BOOST_STATIC)
     set(Boost_USE_STATIC_LIBS ON)
 else()
@@ -83,7 +83,6 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 ################################################################################
 # Find packages
 ################################################################################
-
 if(OPENMP_ENABLED)
     find_package(OpenMP QUIET)
 endif()
@@ -98,7 +97,12 @@ find_package(Boost REQUIRED COMPONENTS
              unit_test_framework)
 
 find_package(Eigen3 REQUIRED)
-
+set(Qt5_DIR /opt/homebrew/Cellar/qt@5/5.15.5_1/lib/cmake/Qt5)
+find_package(PCL REQUIRED)
+if (TEST_LIDAR_ENABLED)
+    find_package(OpenCV REQUIRED)
+    add_definitions(-DTEST_LIDAR_ENABLED)
+endif()
 find_package(FreeImage REQUIRED)
 
 find_package(FLANN REQUIRED)
@@ -114,7 +118,6 @@ set(OpenGL_GL_PREFERENCE GLVND)
 find_package(OpenGL REQUIRED)
 find_package(Glew REQUIRED)
 find_package(Git)
-
 if(CGAL_ENABLED)
     set(CGAL_DO_NOT_WARN_ABOUT_CMAKE_BUILD_TYPE TRUE)
     # We do not use CGAL data. This prevents an unnecessary warning by CMake.
@@ -156,7 +159,6 @@ if(CUDA_ENABLED)
         endif()
     endif()
 endif()
-
 if(GUI_ENABLED)
     find_package(Qt5 5.4 COMPONENTS Core OpenGL Widgets)
     if(Qt5_FOUND)
@@ -164,6 +166,7 @@ if(GUI_ENABLED)
         message(STATUS "  Module : ${Qt5Core_DIR}")
         message(STATUS "  Module : ${Qt5OpenGL_DIR}")
         message(STATUS "  Module : ${Qt5Widgets_DIR}")
+        add_definitions(-DQT_NO_KEYWORDS)
     else()
         set(GUI_ENABLED OFF)
     endif()
@@ -350,6 +353,7 @@ include(GenerateVersionDefinitions)
 set(COLMAP_INCLUDE_DIRS
     ${Boost_INCLUDE_DIRS}
     ${EIGEN3_INCLUDE_DIRS}
+    ${PCL_INCLUDE_DIRS}
     ${GLOG_INCLUDE_DIRS}
     ${FLANN_INCLUDE_DIRS}
     ${LZ4_INCLUDE_DIRS}
@@ -370,6 +374,7 @@ set(COLMAP_EXTERNAL_LIBRARIES
     ${Boost_PROGRAM_OPTIONS_LIBRARY}
     ${Boost_SYSTEM_LIBRARY}
     ${GLOG_LIBRARIES}
+    ${PCL_LIBRARIES}
     ${FLANN_LIBRARIES}
     ${LZ4_LIBRARIES}
     ${FREEIMAGE_LIBRARIES}
@@ -394,10 +399,13 @@ if(CGAL_FOUND)
     list(APPEND COLMAP_LINK_DIRS ${CGAL_LIBRARIES_DIR})
 endif()
 
+if(OpenCV_FOUND)
+    list(APPEND COLMAP_INCLUDE_DIRS ${OpenCV_INCLUDE_DIRS})
+    list(APPEND COLMAP_EXTERNAL_LIBRARIES ${OpenCV_LIBS})
+endif()
 if(UNIX)
     list(APPEND COLMAP_EXTERNAL_LIBRARIES pthread)
 endif()
-
 set(COLMAP_INTERNAL_LIBRARIES
     lsd
     pba
@@ -440,6 +448,7 @@ COLMAP_ADD_SOURCE_DIR(src/sfm SFM_SRCS *.h *.cc)
 COLMAP_ADD_SOURCE_DIR(src/tools TOOLS_SRCS *.h *.cc)
 COLMAP_ADD_SOURCE_DIR(src/ui UI_SRCS *.h *.cc)
 COLMAP_ADD_SOURCE_DIR(src/util UTIL_SRCS *.h *.cc)
+COLMAP_ADD_SOURCE_DIR(src/lidar LIDAR_SRCS *.h *.cc)
 
 # Add all of the source files to a regular library target, as using a custom
 # target does not allow us to set its C++ include directories (and thus
@@ -463,12 +472,15 @@ add_library(
     ${TOOLS_SRCS}
     ${UI_SRCS}
     ${UTIL_SRCS}
+    ${LIDAR_SRCS}
+
 )
 
 # Prevent the library from being compiled automatically.
 set_target_properties(
-    ${COLMAP_SRC_ROOT_FOLDER} PROPERTIES
-    EXCLUDE_FROM_ALL 1
+    ${COLMAP_SRC_ROOT_FOLDER} 
+    PROPERTIES                
+    EXCLUDE_FROM_ALL 1        
     EXCLUDE_FROM_DEFAULT_BUILD 1)
 
 
@@ -477,7 +489,7 @@ set_target_properties(
 ################################################################################
 
 # Install header files.
-install(DIRECTORY src/
+install(DIRECTORY src/     
         DESTINATION include/colmap
         FILES_MATCHING PATTERN "*.h")
 install(DIRECTORY lib/

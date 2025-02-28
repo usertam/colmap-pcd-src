@@ -103,6 +103,7 @@ class OptionManager {
   template <typename T>
   void AddRequiredOption(const std::string& name, T* option,
                          const std::string& help_text = "");
+  
   template <typename T>
   void AddDefaultOption(const std::string& name, T* option,
                         const std::string& help_text = "");

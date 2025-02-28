@@ -105,7 +105,7 @@ QSpinBox* OptionsWidget::AddOptionInt(int* option,
 }
 
 QDoubleSpinBox* OptionsWidget::AddOptionDouble(
-    double* option, const std::string& label_text, const double min,
+    double* option, const std::string& label_text, double min,
     const double max, const double step, const int decimals) {
   QDoubleSpinBox* spinbox = new QDoubleSpinBox(this);
   spinbox->setMinimum(min);

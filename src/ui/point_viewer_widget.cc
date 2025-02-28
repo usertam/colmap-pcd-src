@@ -53,14 +53,13 @@ PointViewerWidget::PointViewerWidget(QWidget* parent,
 
   QGridLayout* grid = new QGridLayout(this);
   grid->setContentsMargins(5, 5, 5, 5);
-
   info_table_ = new QTableWidget(this);
   info_table_->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
   info_table_->setEditTriggers(QAbstractItemView::NoEditTriggers);
   info_table_->setSelectionMode(QAbstractItemView::SingleSelection);
   info_table_->setShowGrid(true);
   info_table_->horizontalHeader()->setStretchLastSection(true);
-  info_table_->horizontalHeader()->setVisible(false);
+  info_table_->horizontalHeader()->setVisible(true);
   info_table_->verticalHeader()->setVisible(false);
   info_table_->verticalHeader()->setDefaultSectionSize(18);
 

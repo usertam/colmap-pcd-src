@@ -38,7 +38,7 @@ std::string GetVersionInfo() {
 }
 
 std::string GetBuildInfo() {
-#ifdef CUDA_ENABLED
+#ifdef CUDA_ENABLED 
   const std::string cuda_info = "with CUDA";
 #else
   const std::string cuda_info = "without CUDA";

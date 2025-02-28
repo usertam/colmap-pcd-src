@@ -257,7 +257,7 @@ int RunImageRegistrator(int argc, char** argv) {
     return EXIT_FAILURE;
   }
 
-  PrintHeading1("Loading database");
+  PrintHeading1("Loading database1号入口");
 
   DatabaseCache database_cache;
 

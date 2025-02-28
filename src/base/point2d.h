@@ -59,6 +59,7 @@ class Point2D {
   inline point3D_t Point3DId() const;
   inline bool HasPoint3D() const;
   inline void SetPoint3DId(const point3D_t point3D_id);
+  inline const point3D_t GetPoint3DId() const {return point3D_id_;}
 
  private:
   // The image coordinates in pixels, starting at upper left corner with 0.
@@ -90,6 +91,7 @@ bool Point2D::HasPoint3D() const { return point3D_id_ != kInvalidPoint3DId; }
 void Point2D::SetPoint3DId(const point3D_t point3D_id) {
   point3D_id_ = point3D_id;
 }
+
 
 }  // namespace colmap
 

@@ -30,11 +30,9 @@
 # Author: Johannes L. Schoenberger (jsch-at-demuc-dot-de)
 
 set(FOLDER_NAME "exe")
-
 if(IS_MSVC)
     add_compile_options("/bigobj")
 endif()
-
 COLMAP_ADD_EXECUTABLE(colmap_exe
     colmap.cc
     database.cc

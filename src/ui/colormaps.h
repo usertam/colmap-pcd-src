@@ -72,24 +72,20 @@ class PointColormapPhotometric : public PointColormapBase {
                EIGEN_STL_UMAP(image_t, Image) & images,
                EIGEN_STL_UMAP(point3D_t, Point3D) & points3D,
                std::vector<image_t>& reg_image_ids) override;
-
   Eigen::Vector4f ComputeColor(const point3D_t point3D_id,
                                const Point3D& point3D) override;
 };
 
-// Map color according to error.
 class PointColormapError : public PointColormapBase {
  public:
   void Prepare(EIGEN_STL_UMAP(camera_t, Camera) & cameras,
                EIGEN_STL_UMAP(image_t, Image) & images,
                EIGEN_STL_UMAP(point3D_t, Point3D) & points3D,
                std::vector<image_t>& reg_image_ids) override;
-
   Eigen::Vector4f ComputeColor(const point3D_t point3D_id,
                                const Point3D& point3D) override;
 };
 
-// Map color according to track length.
 class PointColormapTrackLen : public PointColormapBase {
  public:
   void Prepare(EIGEN_STL_UMAP(camera_t, Camera) & cameras,

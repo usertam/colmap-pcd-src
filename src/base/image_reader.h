@@ -39,7 +39,6 @@
 #include "util/threading.h"
 
 namespace colmap {
-
 struct ImageReaderOptions {
   // Path to database in which to store the extracted data.
   std::string database_path = "";
@@ -61,7 +60,7 @@ struct ImageReaderOptions {
   std::vector<std::string> image_list;
 
   // Name of the camera model.
-  std::string camera_model = "SIMPLE_RADIAL";
+  std::string camera_model = "OPENCV";
 
   // Whether to use the same camera for all images.
   bool single_camera = false;

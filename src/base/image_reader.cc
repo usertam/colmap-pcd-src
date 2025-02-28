@@ -66,6 +66,7 @@ ImageReader::ImageReader(const ImageReaderOptions& options, Database* database)
                         options_.image_list.end())) {
       std::sort(options_.image_list.begin(), options_.image_list.end());
     }
+
     for (auto& image_name : options_.image_list) {
       image_name = JoinPaths(options_.image_path, image_name);
     }
